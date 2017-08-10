@@ -15,19 +15,18 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.sample.R;
 import me.yokeyword.sample.demo_wechat.adapter.PagerAdapter;
-import me.yokeyword.sample.demo_wechat.base.BaseFragment;
 import me.yokeyword.sample.demo_wechat.event.StartBrotherEvent;
 import me.yokeyword.sample.demo_wechat.event.TabSelectedEvent;
 import me.yokeyword.sample.demo_wechat.listener.OnItemClickListener;
-import me.yokeyword.sample.demo_wechat.ui.fragment.CycleFragment;
 import me.yokeyword.sample.demo_wechat.ui.fragment.MainFragment;
 
 /**
  * Created by YoKeyword on 16/6/30.
  */
-public class FirstPagerFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FirstPagerFragment extends SupportFragment implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout mRefreshLayout;
     private RecyclerView mRecy;
     private PagerAdapter mAdapter;
@@ -83,14 +82,14 @@ public class FirstPagerFragment extends BaseFragment implements SwipeRefreshLayo
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder holder) {
                 // 通知MainActivity跳转至CycleFragment
-                EventBus.getDefault().post(new StartBrotherEvent(CycleFragment.newInstance(1)));
+                EventBus.getDefault().post(new StartBrotherEvent(NewFeatureFragment.newInstance()));
             }
         });
 
         // Init Datas
         List<String> items = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            String item = "联系人 " + i;
+            String item = "New features";
             items.add(item);
         }
         mAdapter.setDatas(items);
@@ -128,7 +127,6 @@ public class FirstPagerFragment extends BaseFragment implements SwipeRefreshLayo
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mRecy.setAdapter(null);
         EventBus.getDefault().unregister(this);
     }
 }
